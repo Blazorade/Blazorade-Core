@@ -3,6 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
+    <Version>0.9.0-preview</Version>
+    <Authors>Mika Berglund</Authors>
+    <Company>Blazorade</Company>
+    <Description>Provides core functionality for many of the other Blazorade libraries, such as Blazorade Bootstrap.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 
