@@ -6,7 +6,7 @@
     <Version>0.9.0-preview</Version>
     <Authors>Mika Berglund</Authors>
     <Company>Blazorade</Company>
-    <Description>Provides core functionality for many of the other Blazorade libraries, such as Blazorade Bootstrap.</Description>
+    <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
