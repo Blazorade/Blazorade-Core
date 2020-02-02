@@ -12,6 +12,7 @@ namespace Blazorade.Core.Components.Server
             this.BackdropBackgroundColor = "rgba(0, 0, 0, .75)";
             this.ConnectionStateBackgroundColor = "rgba(255, 255, 255, .8)";
             this.ConnectionStatePadding = "64px";
+
         }
 
 
@@ -33,5 +34,11 @@ namespace Blazorade.Core.Components.Server
         [Parameter]
         public RenderFragment ReconnectRejectedTemplate { get; set; }
 
+
+        protected override void OnParametersSet()
+        {
+            this.AddAttribute("id", "components-reconnect-modal");
+            base.OnParametersSet();
+        }
     }
 }
