@@ -72,11 +72,16 @@ namespace Blazorade.Core.Components
         /// <returns>Returns the component instance.</returns>
         protected BlazoradeComponentBase AddClasses(params string[] classNames)
         {
-            var list = (ICollection<string>)this.Classes;
-
-            if(null != classNames)
+            if(null != classNames && classNames.Length > 0)
             {
-                foreach(var name in classNames)
+                var list = (List<string>)this.Classes;
+                if (list.Count == 0 && classNames.Length > 0 && this.Attributes.TryGetValue("class", out object val))
+                {
+                    // If we don't have any classes defined yet, but there is a class attribute with classes, then we add those to the classes collection first.
+                    list.AddRange(from x in $"{val}".Split(' ') select x);
+                }
+
+                foreach (var name in classNames)
                 {
                     if(!list.Contains(name))
                     {
