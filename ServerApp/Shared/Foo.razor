@@ -1,3 +1,5 @@
 ﻿@inherits BlazoradeComponentBase
 
-<div class="bar" @attributes="this.Attributes">Jeah!</div>
+<div class="bar" @attributes="this.Attributes">
+    @this.ChildContent
+</div>

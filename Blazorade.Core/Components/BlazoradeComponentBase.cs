@@ -31,6 +31,12 @@ namespace Blazorade.Core.Components
         public IDictionary<string, object> Attributes { get; set; }
 
         /// <summary>
+        /// Enables child content for the control.
+        /// </summary>
+        [Parameter]
+        public virtual RenderFragment ChildContent { get; set; }
+
+        /// <summary>
         /// Returns a read-only copy of the classes defined on the component. 
         /// </summary>
         public IReadOnlyCollection<string> Classes { get; private set; }
