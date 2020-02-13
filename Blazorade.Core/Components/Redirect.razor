@@ -1,0 +1,39 @@
+﻿@inherits BlazoradeComponentBase
+
+
+@code {
+
+    /// <summary>
+    /// A delay in milliseconds before redirecting to the specified <c>URL</c>.
+    /// </summary>
+    [Parameter]
+    public int? Delay { get; set; }
+
+    /// <summary>
+    /// The URL to redirect to when the component has rendered.
+    /// </summary>
+    [Parameter]
+    public string Url { get; set; }
+
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(!string.IsNullOrEmpty(this.Url))
+        {
+            if (this.Delay.HasValue)
+            {
+                await Task.Delay(this.Delay.Value);
+            }
+
+            this.NavigationManager.NavigateTo(this.Url, true);
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+}
+
+@this.ChildContent
