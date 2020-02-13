@@ -1,0 +1,18 @@
+﻿@page "/RedirectToHome"
+
+<p>
+    This page uses the <code>Redirect</code> component. When you click the button below, the component will render and redirect back to the home page.
+</p>
+
+@code {
+    bool redir = false;
+}
+
+@if (this.redir)
+{
+    <Redirect Url="/">Redirecting back to home page.</Redirect>
+}
+else
+{
+    <button class="btn btn-outline-primary" @onclick="() => this.redir = true">Redirect</button>
+}
