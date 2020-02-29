@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazorade.Core.Components.Builder;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,7 @@ namespace Blazorade.Core.Components
         /// </summary>
         protected BlazoradeComponentBase()
         {
-            this.Attributes = new Dictionary<string, object>();
-            this.Classes = new List<string>();
-            this.Styles = new Dictionary<string, string>();
+            this.InitComponent();
         }
 
 
@@ -31,10 +30,22 @@ namespace Blazorade.Core.Components
         public IDictionary<string, object> Attributes { get; set; }
 
         /// <summary>
+        /// An attribute builder that is used when building attributes for the element before rendering.
+        /// </summary>
+        [Parameter]
+        public IAttributeBuilder AttributeBuilder { get; set; }
+
+        /// <summary>
         /// Enables child content for the control.
         /// </summary>
         [Parameter]
         public virtual RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// A class builder that is used when building the class names for the element before rendering.
+        /// </summary>
+        [Parameter]
+        public IClassBuilder ClassBuilder { get; set; }
 
         /// <summary>
         /// Returns a read-only copy of the classes defined on the component. 
@@ -46,14 +57,20 @@ namespace Blazorade.Core.Components
         /// </summary>
         public IReadOnlyDictionary<string, string> Styles { get; set; }
 
+        /// <summary>
+        /// A style builder that is used when building styles for the element before rendering.
+        /// </summary>
+        [Parameter]
+        public IStyleBuilder StyleBuilder { get; set; }
 
 
+
+        /// <summary>
+        /// Prepares the component for parameters.
+        /// </summary>
         public override Task SetParametersAsync(ParameterView parameters)
         {
-            this.Attributes.Clear();
-            this.Classes = new List<string>();
-            this.Styles = new Dictionary<string, string>();
-
+            this.InitComponent();
             return base.SetParametersAsync(parameters);
         }
 
@@ -110,7 +127,35 @@ namespace Blazorade.Core.Components
         protected BlazoradeComponentBase AddStyle(string styleName, string value)
         {
             ((IDictionary<string, string>)this.Styles)[styleName] = value;
+            this.BuildStyleAttribute();
             return this;
+        }
+
+        /// <summary>
+        /// Handles builders set on the component.
+        /// </summary>
+        /// <remarks>
+        /// If you override this method, you must call the base implementation at some point in your implementation.
+        /// </remarks>
+        protected override void OnParametersSet()
+        {
+            
+            foreach(var a in this.AttributeBuilder?.Build() ?? new KeyValuePair<string, object>[0])
+            {
+                this.AddAttribute(a.Key, a.Value);
+            }
+
+            if (null != this.ClassBuilder)
+            {
+                this.AddClasses(this.ClassBuilder.Build().ToArray());
+            }
+
+            foreach(var s in this.StyleBuilder?.Build() ?? new KeyValuePair<string, string>[0])
+            {
+                this.AddStyle(s.Key, s.Value);
+            }
+
+            base.OnParametersSet();
         }
 
         /// <summary>
@@ -184,6 +229,13 @@ namespace Blazorade.Core.Components
             {
                 this.RemoveAttribute("style");
             }
+        }
+
+        private void InitComponent()
+        {
+            this.Attributes = new Dictionary<string, object>();
+            this.Classes = new List<string>();
+            this.Styles = new Dictionary<string, string>();
         }
 
     }
