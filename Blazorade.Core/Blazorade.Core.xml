@@ -1,0 +1,271 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Blazorade.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Blazorade.Core.Components.BlazoradeComponentBase">
+            <summary>
+            A base class for Blazor components.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.#ctor">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.Attributes">
+            <summary>
+            A collection of attributes that will be merged onto the component when rendered.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.AttributeBuilder">
+            <summary>
+            An attribute builder that is used when building attributes for the element before rendering.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.ChildContent">
+            <summary>
+            Enables child content for the control.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.ClassBuilder">
+            <summary>
+            A class builder that is used when building the class names for the element before rendering.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.Classes">
+            <summary>
+            Returns a read-only copy of the classes defined on the component. 
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.Styles">
+            <summary>
+            Returns a read-only copy of the inline styles defined on the component.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.StyleBuilder">
+            <summary>
+            A style builder that is used when building styles for the element before rendering.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView)">
+            <summary>
+            Prepares the component for parameters.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.AddAttribute(System.String,System.Object)">
+            <summary>
+            Adds an attribute to the <see cref="!:this.Attributes"/> dictionary.
+            </summary>
+            <param name="name">The name of the attribute to add.</param>
+            <param name="value">The value of the attribute.</param>
+            <returns>Returns the component instance.</returns>
+        </member>
+        <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.AddClasses(System.String[])">
+            <summary>
+            Adds the given classes to the <see cref="P:Blazorade.Core.Components.BlazoradeComponentBase.Classes"/> collection.
+            </summary>
+            <param name="classNames">An array of class names to add.</param>
+            <returns>Returns the component instance.</returns>
+        </member>
+        <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.AddStyle(System.String,System.String)">
+            <summary>
+            Adds a style to the style dictionary. The style dictionary will be rendered as an inline <c>style</c> attribute on the resulting element.
+            </summary>
+            <param name="styleName">The name of the style.</param>
+            <param name="value">The value of the style.</param>
+            <returns>Returns the component instance.</returns>
+        </member>
+        <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.OnParametersSet">
+            <summary>
+            Handles builders set on the component.
+            </summary>
+            <remarks>
+            If you override this method, you must call the base implementation at some point in your implementation.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.RemoveAttribute(System.String)">
+            <summary>
+            Removes the attribute with the given name.
+            </summary>
+            <param name="name">The name of the attribute to remove.</param>
+            <returns>Returns the component instance.</returns>
+        </member>
+        <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.RemoveClass(System.String)">
+            <summary>
+            Removes the given class from the <see cref="P:Blazorade.Core.Components.BlazoradeComponentBase.Classes"/> collection.
+            </summary>
+            <param name="className">The class name to remove.</param>
+            <returns>Returns the component instance.</returns>
+        </member>
+        <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.RemoveStyle(System.String)">
+            <summary>
+            Removes the given style from the styles dictionary.
+            </summary>
+            <param name="styleName">The style to remove.</param>
+            <returns>Returns the component instance.</returns>
+        </member>
+        <member name="T:Blazorade.Core.Components.Builder.AttributeBuilder">
+            <summary>
+            A generic attribute builder implementation that implements the <see cref="T:Blazorade.Core.Components.Builder.IAttributeBuilder"/> interface.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.AttributeBuilder.#ctor">
+            <summary>
+            Creates an instance of the builder.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.AttributeBuilder.#ctor(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+            <summary>
+            Creates an instance of the builder and specifies the attributes to load into the instance.
+            </summary>
+            <param name="attributes">The attributes to load into the builder.</param>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.AttributeBuilder.Build">
+            <summary>
+            Builds the attributes and returns them as a collection where each item represents one attribute including its name and value.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.AttributeBuilder.Add(System.String,System.Object)">
+            <summary>
+            Adds an attribute to the builder.
+            </summary>
+            <param name="name">The name of the attribute.</param>
+            <param name="value">The value of the attribute.</param>
+            <remarks>If an attribute with the given name exists, it will be overwritten.</remarks>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.AttributeBuilder.Remove(System.String)">
+            <summary>
+            Removes an attribute from the builder.
+            </summary>
+            <param name="name">The name of the attribute to remove.</param>
+            <remarks>
+            The given name is ignored if the builder does not contain an attribute with the given name.
+            </remarks>
+        </member>
+        <member name="T:Blazorade.Core.Components.Builder.ClassBuilder">
+            <summary>
+            A generic class builder that implements the <see cref="T:Blazorade.Core.Components.Builder.IClassBuilder"/> interface.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.ClassBuilder.#ctor">
+            <summary>
+            Creates an instance of the builder.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.ClassBuilder.#ctor(System.String[])">
+            <summary>
+            Creates an instance of the builder and loads it with the given classes.
+            </summary>
+            <param name="classes"></param>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.ClassBuilder.Build">
+            <summary>
+            Returns the classes from the builder.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.ClassBuilder.Add(System.String[])">
+            <summary>
+            Adds the given classes to the builder.
+            </summary>
+            <param name="classNames">The classes to add to the builder.</param>
+            <remarks>Only the given classes that do not already exist in the builder are added.</remarks>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.ClassBuilder.Remove(System.String[])">
+            <summary>
+            Removes the given classes from the builder if they exist.
+            </summary>
+            <param name="classNames">The class names to remove.</param>
+        </member>
+        <member name="T:Blazorade.Core.Components.Builder.IAttributeBuilder">
+            <summary>
+            The interface implemented by attribute builders.
+            </summary>
+            <remarks>
+            An attribute builder is an implementation that builds attributes for an element to add when it is rendered.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.IAttributeBuilder.Build">
+            <summary>
+            Builds the attributes and returns them as a collection where each item represents one attribute including its name and value.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Components.Builder.IClassBuilder">
+            <summary>
+            The interface that defines a class builder.
+            </summary>
+            <remarks>
+            A class builder is an implementation that builds class names for an element to add when it is rendered.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.IClassBuilder.Build">
+            <summary>
+            Builds the classes and returns them as a collection of strings where each string represents one class name to be added to an element.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Components.Builder.IStyleBuilder">
+            <summary>
+            The interface implemented by style builders.
+            </summary>
+            <remarks>
+            A style builder is an implementation that builds styles for an element to add to it when rendering.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.IStyleBuilder.Build">
+            <summary>
+            Builds the styles and returns them as a collection where each item represents one style including its name and value.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Components.Builder.StyleBuilder">
+            <summary>
+            A generic style builder implementation that can also be used as base for other builder implementations.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.StyleBuilder.#ctor">
+            <summary>
+            Creates an instance of the builder.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.StyleBuilder.#ctor(System.Collections.Generic.KeyValuePair{System.String,System.String}[])">
+            <summary>
+            Creates an instance of the class and loads it with styles.
+            </summary>
+            <param name="styles">The styles to load into the instance.</param>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.StyleBuilder.Build">
+            <summary>
+            Builds the styles and returns them as a collection where each item represents one style including its name and value.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.StyleBuilder.Add(System.String,System.String)">
+            <summary>
+            Adds a style to the builder.
+            </summary>
+            <param name="name">The name of the style to add.</param>
+            <param name="value">The value of the style.</param>
+            <remarks>
+            If a style with the given name already exists, it will be overwritten.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.StyleBuilder.Remove(System.String)">
+            <summary>
+            Removes the style with the given name.
+            </summary>
+            <param name="name">The name of the style to remove.</param>
+            <remarks>
+            The style name is ignored if it does not exist.
+            </remarks>
+        </member>
+        <member name="P:Blazorade.Core.Components.Redirect.Delay">
+            <summary>
+            A delay in milliseconds before redirecting to the specified <c>URL</c>.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.Redirect.Url">
+            <summary>
+            The URL to redirect to when the component has rendered.
+            </summary>
+        </member>
+    </members>
+</doc>
