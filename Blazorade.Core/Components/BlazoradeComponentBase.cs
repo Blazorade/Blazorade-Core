@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,23 +30,14 @@ namespace Blazorade.Core.Components
         [Parameter(CaptureUnmatchedValues = true)]
         public IDictionary<string, object> Attributes { get; set; }
 
-        /// <summary>
-        /// An attribute builder that is used when building attributes for the element before rendering.
-        /// </summary>
         [Parameter]
-        public IAttributeBuilder AttributeBuilder { get; set; }
+        public IComponentBuilder Builder { get; set; }
 
         /// <summary>
         /// Enables child content for the control.
         /// </summary>
         [Parameter]
         public virtual RenderFragment ChildContent { get; set; }
-
-        /// <summary>
-        /// A class builder that is used when building the class names for the element before rendering.
-        /// </summary>
-        [Parameter]
-        public IClassBuilder ClassBuilder { get; set; }
 
         /// <summary>
         /// Returns a read-only copy of the classes defined on the component. 
@@ -56,12 +48,6 @@ namespace Blazorade.Core.Components
         /// Returns a read-only copy of the inline styles defined on the component.
         /// </summary>
         public IReadOnlyDictionary<string, string> Styles { get; set; }
-
-        /// <summary>
-        /// A style builder that is used when building styles for the element before rendering.
-        /// </summary>
-        [Parameter]
-        public IStyleBuilder StyleBuilder { get; set; }
 
 
 
@@ -139,21 +125,20 @@ namespace Blazorade.Core.Components
         /// </remarks>
         protected override void OnParametersSet()
         {
-            
-            foreach(var a in this.AttributeBuilder?.Build() ?? new KeyValuePair<string, object>[0])
+            var builderAttributes = this.Builder?.BuildAttributes();
+            var builderStyles = this.Builder?.BuildStyles();
+
+            foreach(var key in builderAttributes?.Keys ?? new string[0])
             {
-                this.AddAttribute(a.Key, a.Value);
+                this.AddAttribute(key, builderAttributes[key]);
             }
 
-            if (null != this.ClassBuilder)
+            foreach(var key in builderStyles?.Keys ?? new string[0])
             {
-                this.AddClasses(this.ClassBuilder.Build().ToArray());
+                this.AddStyle(key, builderStyles[key]);
             }
 
-            foreach(var s in this.StyleBuilder?.Build() ?? new KeyValuePair<string, string>[0])
-            {
-                this.AddStyle(s.Key, s.Value);
-            }
+            this.AddClasses((this.Builder?.BuildClasses() ?? new string[0]).ToArray());
 
             base.OnParametersSet();
         }

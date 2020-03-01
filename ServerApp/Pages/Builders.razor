@@ -2,8 +2,11 @@
 
 <h1>Builders</h1>
 
-<Div
-     ClassBuilder="@(new ClassBuilder("d-inline-block", "border", "border-primary", "m-3", "p-3"))"
-     AttributeBuilder="@(new AttributeBuilder { { "title", "An inline div element" } })"
-     StyleBuilder="@(new StyleBuilder { { "background-color", "#ccc" }, { "font-family", "Verdana" }, { "font-weight", "700" } })"
->Inline Div</Div>
+@code {
+    IComponentBuilder builder = new ComponentBuilder(
+        attributes: new Dictionary<string, object> { { "title", "An inline div element" } },
+        classes: new[] { "d-inline-block", "border", "border-primary", "m-3", "p-3" },
+        styles: new Dictionary<string, string> { { "background-color", "#ccc" }, { "font-family", "Verdana" }, { "font-weight", "700" } }
+    );
+}
+<Div Builder="this.builder">Inline Div</Div>
