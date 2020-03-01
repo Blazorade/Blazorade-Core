@@ -9,7 +9,7 @@ namespace Blazorade.Core.Components.Builder
     /// <summary>
     /// A generic style builder implementation that can also be used as base for other builder implementations.
     /// </summary>
-    public class StyleBuilder : IStyleBuilder
+    public class StyleBuilder : BuilderBase<KeyValuePair<string, string>>, IStyleBuilder
     {
 
         /// <summary>
@@ -31,16 +31,6 @@ namespace Blazorade.Core.Components.Builder
 
 
 
-        private Dictionary<string, string> Styles = new Dictionary<string, string>();
-
-        /// <summary>
-        /// Builds the styles and returns them as a collection where each item represents one style including its name and value.
-        /// </summary>
-        public IEnumerable<KeyValuePair<string, string>> Build()
-        {
-            return this.Styles.AsEnumerable();
-        }
-
         /// <summary>
         /// Adds a style to the builder.
         /// </summary>
@@ -49,35 +39,11 @@ namespace Blazorade.Core.Components.Builder
         /// <remarks>
         /// If a style with the given name already exists, it will be overwritten.
         /// </remarks>
-        public void Add(string name, string value)
+        public virtual void Add(string name, string value)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            this.Styles[name] = value;
+            this.Add(new KeyValuePair<string, string>(name, value));
         }
 
-        /// <summary>
-        /// Removes the style with the given name.
-        /// </summary>
-        /// <param name="name">The name of the style to remove.</param>
-        /// <remarks>
-        /// The style name is ignored if it does not exist.
-        /// </remarks>
-        public void Remove(string name)
-        {
-            if (this.Styles.ContainsKey(name)) this.Styles.Remove(name);
-        }
-
-
-
-
-        IEnumerator<KeyValuePair<string, string>> IEnumerable<KeyValuePair<string, string>>.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
