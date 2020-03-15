@@ -80,19 +80,35 @@ namespace Blazorade.Core.Components.Builder
         /// <remarks>
         /// If the attribute already exists, it will be overwritten.
         /// </remarks>
-        protected virtual void AddAttribute(string name, object value)
+        public virtual ComponentBuilder AddAttribute(string name, object value)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             this.Attributes[name] = value;
+
+            return this;
+        }
+
+        public virtual ComponentBuilder AddAttributes(IDictionary<string, object> attributes)
+        {
+            if(null != attributes)
+            {
+                foreach(var key in attributes.Keys)
+                {
+                    this.AddAttribute(key, attributes[key]);
+                }
+            }
+            return this;
         }
 
         /// <summary>
         /// Adds the given classes to the builder.
         /// </summary>
         /// <param name="classes">The classes to add. Duplicates and classes that already exist are ignored.</param>
-        protected virtual void AddClasses(params string[] classes)
+        public virtual ComponentBuilder AddClasses(params string[] classes)
         {
             this.Classes.AddRange(from x in classes ?? new string[0] where !this.Classes.Contains(x) group x by x into y select y.Key);
+
+            return this;
         }
 
         /// <summary>
@@ -103,11 +119,27 @@ namespace Blazorade.Core.Components.Builder
         /// <remarks>
         /// If the style already exists, it will be overwritten.
         /// </remarks>
-        protected virtual void AddStyle(string name, string value)
+        public virtual ComponentBuilder AddStyle(string name, string value)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             this.Styles[name] = value;
+
+            return this;
         }
+
+        public virtual ComponentBuilder AddStyles(IDictionary<string, string> styles)
+        {
+            if(null != styles)
+            {
+                foreach(var key in styles.Keys)
+                {
+                    this.AddStyle(key, styles[key]);
+                }
+            }
+
+            return this;
+        }
+
 
         /// <summary>
         /// Removes the given attribute from the builder.
