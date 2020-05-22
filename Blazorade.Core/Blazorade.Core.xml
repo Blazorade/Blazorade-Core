@@ -132,6 +132,12 @@
             If the attribute already exists, it will be overwritten.
             </remarks>
         </member>
+        <member name="M:Blazorade.Core.Components.Builder.ComponentBuilder.AddAttributes(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Adds multiple attributes to the builder.
+            </summary>
+            <param name="attributes">A dictionary representing the attributes to add.</param>
+        </member>
         <member name="M:Blazorade.Core.Components.Builder.ComponentBuilder.AddClasses(System.String[])">
             <summary>
             Adds the given classes to the builder.
@@ -147,6 +153,12 @@
             <remarks>
             If the style already exists, it will be overwritten.
             </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.ComponentBuilder.AddStyles(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Adds multiple styles to the builder.
+            </summary>
+            <param name="styles">A dictionary representing the styles to add.</param>
         </member>
         <member name="M:Blazorade.Core.Components.Builder.ComponentBuilder.RemoveAttribute(System.String)">
             <summary>
@@ -174,6 +186,30 @@
             The interface that defines a component builder.
             </summary>
         </member>
+        <member name="M:Blazorade.Core.Components.Builder.IComponentBuilder.BuildAttributes">
+            <summary>
+            Returns the attributes from the builder.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.IComponentBuilder.BuildClasses">
+            <summary>
+            Returns the classes from the builder.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Builder.IComponentBuilder.BuildStyles">
+            <summary>
+            Returns the styles from the builder.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Components.Redirect">
+            <summary>
+            Allows you to redirect the user to another address.
+            </summary>
+            <remarks>
+            This component handles the redirection when it is rendered. No redirection will occur if your
+            application logic does not render this component.
+            </remarks>
+        </member>
         <member name="P:Blazorade.Core.Components.Redirect.Delay">
             <summary>
             A delay in milliseconds before redirecting to the specified <c>URL</c>.
@@ -182,6 +218,58 @@
         <member name="P:Blazorade.Core.Components.Redirect.Url">
             <summary>
             The URL to redirect to when the component has rendered.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.Redirect.NavigationManager">
+            <summary>
+            The navigation manager used by the component. This is automatically injected.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Redirect.OnAfterRenderAsync(System.Boolean)">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Components.Server.ComponentReconnectModal">
+            <summary>
+            Represents a modal dialog that is shown when the application looses connection with the server.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Server.ComponentReconnectModal.#ctor">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.Server.ComponentReconnectModal.BackdropBackgroundColor">
+            <summary>
+            The colour of the modal dialog backdrop. Defaults to <c>rgba(0, 0, 0, .75)</c>.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.Server.ComponentReconnectModal.ConnectionStateBackgroundColor">
+            <summary>
+            The background colour of the dialog displaying the connection state. Defaults to <c>rgba(255, 255, 255, .8)</c>.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.Server.ComponentReconnectModal.ConnectionStatePadding">
+            <summary>
+            The padding for the modal displaying the connection state. Default to <c>64px</c>.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.Server.ComponentReconnectModal.ReconnectingTemplate">
+            <summary>
+            Allows you to customize the message that is shown when the connection is lost and the application is trying to reconnect.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.Server.ComponentReconnectModal.ReconnectFailedTemplate">
+            <summary>
+            Allows you to customize the message that is shown when reconnection attempts with the server have failed.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Components.Server.ComponentReconnectModal.ReconnectRejectedTemplate">
+            <summary>
+            Allows you to customize the message that is shown when the server has rejected the reconnection.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Components.Server.ComponentReconnectModal.OnParametersSet">
+            <summary>
             </summary>
         </member>
     </members>

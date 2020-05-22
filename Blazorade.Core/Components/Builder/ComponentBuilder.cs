@@ -88,6 +88,10 @@ namespace Blazorade.Core.Components.Builder
             return this;
         }
 
+        /// <summary>
+        /// Adds multiple attributes to the builder.
+        /// </summary>
+        /// <param name="attributes">A dictionary representing the attributes to add.</param>
         public virtual ComponentBuilder AddAttributes(IDictionary<string, object> attributes)
         {
             if(null != attributes)
@@ -127,6 +131,10 @@ namespace Blazorade.Core.Components.Builder
             return this;
         }
 
+        /// <summary>
+        /// Adds multiple styles to the builder.
+        /// </summary>
+        /// <param name="styles">A dictionary representing the styles to add.</param>
         public virtual ComponentBuilder AddStyles(IDictionary<string, string> styles)
         {
             if(null != styles)
