@@ -9,11 +9,12 @@
     <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/Blazorade/Blazorade-Core/wiki</PackageProjectUrl>
+    <PackageProjectUrl>https://blazorade.com/Core</PackageProjectUrl>
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Blazorade/Blazorade-Core</RepositoryUrl>
     <PackageTags>Blazor, Razor, Component</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <Product>Blazorade Core</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
