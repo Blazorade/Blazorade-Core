@@ -282,6 +282,48 @@
             API that returns a result using callback functions.
             </remarks>
         </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.SuccessCallback">
+            <summary>
+            The callback method that will be called from JavaScript when the operation completes successfully.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.FailureCallback">
+            <summary>
+            The callback method that will be called from JavaScript when the operation fails.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Data">
+            <summary>
+            Arbitrary data to pass in to the JavaScript function.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Dispose">
+            <summary>
+            Handles disposing of objects.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Dispose(System.Boolean)">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2">
+            <summary>
+            Handles callbacks to and from JavaScript code.
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.SuccessCallbackAsync(`0)">
+            <summary>
+            The method that will be called by JavaScript code when the operation completes successfully.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.FalureCallbackAsync(`1)">
+            <summary>
+            The method that will be called by JavaSCript code when the operation fails.
+            </summary>
+        </member>
         <member name="T:Blazorade.Core.Interop.DotNetInstanceMethod">
             <summary>
             Encapsulates a .NET instance method in your Blazor application that can be called from JavaScript.
