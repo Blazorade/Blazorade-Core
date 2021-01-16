@@ -1,3 +1,34 @@
 ﻿@page "/callbacks"
+@inject IJSRuntime jsRuntime
 
-<h1>Callbacks</h1> 
+@code{
+    string data;
+
+    private async Task ClickHandlerAsync(MouseEventArgs args)
+    {
+        var module = await this.GetJsModuleAsync();
+        using (var callback = new DotNetInstanceCallbackHandler<string>(module))
+        {
+            this.data = await callback.GetResultAsync("getDelayedTimeString");
+            this.StateHasChanged();
+        }
+    }
+
+    Task<IJSObjectReference> jsModule;
+    private Task<IJSObjectReference> GetJsModuleAsync()
+    {
+        return this.jsModule ??= this.jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/jsFuncs.js").AsTask();
+    }
+}
+<h1>Callbacks</h1>
+<p>
+    When you click the button below, it invokes an interop call that calls into JavaScript that uses a timeout
+    to simulate data received in a callback. The handler function for the timeout will call back into .NET to
+    display the data received on this page.
+</p>
+
+<button @onclick="this.ClickHandlerAsync">Get Data</button>
+
+<p>
+    <span>Data: @this.data</span>
+</p>

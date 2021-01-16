@@ -19,6 +19,11 @@
             A collection of attributes that will be merged onto the component when rendered.
             </summary>
         </member>
+        <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.Builder">
+            <summary>
+            The builder that will be used to build attributes, classes and styles for the element produced by the component.
+            </summary>
+        </member>
         <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.ChildContent">
             <summary>
             Enables child content for the control.
@@ -41,7 +46,7 @@
         </member>
         <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.AddAttribute(System.String,System.Object)">
             <summary>
-            Adds an attribute to the <see cref="!:this.Attributes"/> dictionary.
+            Adds an attribute to the <see cref="P:Blazorade.Core.Components.BlazoradeComponentBase.Attributes"/> dictionary.
             </summary>
             <param name="name">The name of the attribute to add.</param>
             <param name="value">The value of the attribute.</param>
@@ -314,15 +319,78 @@
             
             </remarks>
         </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.#ctor(Microsoft.JSInterop.IJSObjectReference)">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="module">The module declaring the JavaScript function to call.</param>
+        </member>
         <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.SuccessCallbackAsync(`0)">
             <summary>
             The method that will be called by JavaScript code when the operation completes successfully.
             </summary>
+            <remarks>
+            This method supports the functionality provided by the class and should not be used in your code.
+            </remarks>
         </member>
-        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.FalureCallbackAsync(`1)">
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.FailureCallbackAsync(`1)">
             <summary>
             The method that will be called by JavaSCript code when the operation fails.
             </summary>
+            <remarks>
+            This method supports the functionality provided by the class and should not be used in your code.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.GetResultAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Calls the JavaScript function specified by <paramref name="functionIdentifier"/>. The <see cref="T:System.Threading.Tasks.Task"/> returned
+            by this method will complete when the called JavaScript function calls one of the callbacks sent as argument.
+            </summary>
+            <remarks>
+            This method assumes that the JavaScript function defined by <paramref name="functionIdentifier"/> takes one parameter
+            that is represented by an instance of the <see cref="T:Blazorade.Core.Interop.DotNetInstanceCallbackArgs"/> class. That instance defines a
+            success callback and a failure callback. The called JavaScript function will call either of those to return data.
+            </remarks>
+            <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+            <param name="data">
+            Optional data to pass to the JavaScript function. This will be available on the
+            <see cref="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.Dispose">
+            <summary>
+            Disposes of the handler when it has been used.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.Dispose(System.Boolean)">
+            <summary>
+            Disposes of the handler when it has been used.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`1">
+            <summary>
+            A class derived from <see cref="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2"/> that only defines
+            <typeparamref name="TSuccess"/>.
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`1.#ctor(Microsoft.JSInterop.IJSObjectReference)">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="module">The module declaring the JavaScript function to call.</param>
+        </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler">
+            <summary>
+            A class derived from <see cref="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2"/> without type parameters.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler.#ctor(Microsoft.JSInterop.IJSObjectReference)">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="module">The module declaring the JavaScript function to call.</param>
         </member>
         <member name="T:Blazorade.Core.Interop.DotNetInstanceMethod">
             <summary>
@@ -382,6 +450,29 @@
         <member name="M:Blazorade.Core.Interop.DotNetInstanceMethod.Dispose">
             <summary>
             Disposes of the object.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Interop.FailureCallbackException">
+            <summary>
+            The exception that is thrown when a failure callback is called.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.FailureCallbackException.#ctor(System.Object)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+            <param name="result">The result data that was sent with the failure callback.</param>
+        </member>
+        <member name="M:Blazorade.Core.Interop.FailureCallbackException.#ctor(System.Object,System.String)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+            <param name="result">The result data that was sent with the failure callback.</param>
+            <param name="message">An additional error message.</param>
+        </member>
+        <member name="P:Blazorade.Core.Interop.FailureCallbackException.Result">
+            <summary>
+            The result that may contain additional information about the failure.
             </summary>
         </member>
     </members>

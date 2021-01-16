@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>1.4.1</Version>
+    <Version>2.0.0-preview1</Version>
     <Authors>Mika Berglund</Authors>
     <Company>Blazorade</Company>
     <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap.</Description>
@@ -12,7 +12,7 @@
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Blazorade/Blazorade-Core</RepositoryUrl>
     <PackageTags>Blazor, Razor, Component</PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>This library is now targeting .NET 5 instead of .NET Standard 2.0.</PackageReleaseNotes>
     <Product>Blazorade Core</Product>
   </PropertyGroup>
 
