@@ -272,5 +272,75 @@
             <summary>
             </summary>
         </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceCallbackArgs">
+            <summary>
+            An arguments class for use when calling a JavaScript function from .NET, where the JavaScript function
+            needs to call back to your .NET code.
+            </summary>
+            <remarks>
+            This is useful in scenarios where the JavaScript function that you call from .NET calls into some JavaScript
+            API that returns a result using callback functions.
+            </remarks>
+        </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceMethod">
+            <summary>
+            Encapsulates a .NET instance method in your Blazor application that can be called from JavaScript.
+            </summary>
+            <remarks>
+            <para>
+            An instance of this class can be used as argument when calling a JavaScript function from .NET. The argument allows
+            the JS code to call the .NET method encapsulated in this instance.
+            </para>
+            <para>
+            To call the method encapsulated in this instance from your JavaScript code, you pass this instance to your JavaScript
+            code as an argument. In that JavaScript function you would then use it like this.
+            </para>
+            <code>
+            function myJavaScriptFunction(dotNetInstanceMethod) {
+                
+                // To call the .NET method without any arguments, you do it like this.
+                dotNetInstanceMethod.target.invokeMethodAsync(dotNetInstanceCallback.methodName);
+                
+                // Or you can also pass in arguments like this.
+                dotNetInstanceMethod.target.invokeMethodAsync(dotNetInstanceMethod.methodName, arg1, arg2);
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceMethod.Target">
+            <summary>
+            Represents the target object defining the method to call back from JavaScript.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceMethod.MethodName">
+            <summary>
+            The name of the method on the object represented by <see cref="P:Blazorade.Core.Interop.DotNetInstanceMethod.Target"/>.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceMethod.Create(System.Delegate)">
+            <summary>
+            Creates a new instance from the delegate specified in <paramref name="method"/>.
+            </summary>
+            <param name="method">The method to encapsulate in the callback.</param>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceMethod.Create(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Creates a new instance from the async function specified in <paramref name="method"/>.
+            </summary>
+            <param name="method">The method to encapsulate in the callback.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceMethod.Create``1(System.Func{``0,System.Threading.Tasks.Task})">
+            <summary>
+            Creates a new instance from the async function specified in <paramref name="method"/>.
+            </summary>
+            <typeparam name="T">The type for the input parameter on the callback method.</typeparam>
+            <param name="method">The method to encapsulate in the callback.</param>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceMethod.Dispose">
+            <summary>
+            Disposes of the object.
+            </summary>
+        </member>
     </members>
 </doc>
