@@ -1,7 +1,13 @@
 ﻿
 
 export function getDelayedTimeString(args) {
+    console.log("getDelayedTimeString", args);
+    getDelayedTimeStringByCallback(args.successCallback);
+}
+
+export function getDelayedTimeStringByCallback(callback) {
+    console.log("getDelayedTimeStringByCallback", callback);
     setTimeout(() => {
-        args.successCallback.target.invokeMethodAsync(args.successCallback.methodName, new Date().toLocaleTimeString());
-    }, 500);
+        callback.target.invokeMethodAsync(callback.methodName, new Date().toLocaleTimeString());
+    }, 100);
 }

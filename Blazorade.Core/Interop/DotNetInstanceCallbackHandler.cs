@@ -12,19 +12,66 @@ namespace Blazorade.Core.Interop
     /// <remarks>
     /// 
     /// </remarks>
-    public class DotNetInstanceCallbackHandler<TSuccess, TFailure>: IDisposable
+    public class DotNetInstanceCallbackHandler<TSuccess, TFailure> : IDisposable
     {
+        private DotNetInstanceCallbackHandler(string functionIdentifier, Dictionary<string, object> data = null)
+        {
+            this.FunctionIdentifier = functionIdentifier ?? throw new ArgumentNullException(nameof(functionIdentifier));
+            this.Data = data ?? new Dictionary<string, object>();
+        }
+
         /// <summary>
         /// Creates an instance of the class.
         /// </summary>
         /// <param name="module">The module declaring the JavaScript function to call.</param>
-        public DotNetInstanceCallbackHandler(IJSObjectReference module)
+        /// <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+        /// <param name="data">
+        /// Optional data to pass to the JavaScript function. This will be available on the
+        /// <see cref="DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+        /// </param>
+        /// <remarks>
+        /// This class assumes that the JavaScript function defined by <paramref name="functionIdentifier"/> takes one parameter
+        /// that is represented by an instance of the <see cref="DotNetInstanceCallbackArgs"/> class. That instance defines a
+        /// success callback and a failure callback. The called JavaScript function is assumed to call either of those to return data.
+        /// </remarks>
+        public DotNetInstanceCallbackHandler(IJSObjectReference module, string functionIdentifier, Dictionary<string, object> data = null) : this(functionIdentifier, data)
         {
             this.Module = module ?? throw new ArgumentNullException(nameof(module));
+            this.Invoker = (id, args) =>
+            {
+                return this.Module.InvokeVoidAsync(id, args).AsTask();
+            };
         }
 
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="jsRuntime">The JavaScript runtime to use when calling a JavaScript function.</param>
+        /// <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+        /// <param name="data">
+        /// Optional data to pass to the JavaScript function. This will be available on the
+        /// <see cref="DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+        /// </param>
+        /// <remarks>
+        /// This class assumes that the JavaScript function defined by <paramref name="functionIdentifier"/> takes one parameter
+        /// that is represented by an instance of the <see cref="DotNetInstanceCallbackArgs"/> class. That instance defines a
+        /// success callback and a failure callback. The called JavaScript function is assumed to call either of those to return data.
+        /// </remarks>
+        public DotNetInstanceCallbackHandler(IJSRuntime jsRuntime, string functionIdentifier, Dictionary<string, object> data = null) : this(functionIdentifier, data)
+        {
+            this.JSRuntime = jsRuntime ?? throw new ArgumentNullException(nameof(jsRuntime));
+            this.Invoker = (id, args) =>
+            {
+                return this.JSRuntime.InvokeVoidAsync(id, args).AsTask();
+            };
+        }
+
+        private Func<string, DotNetInstanceCallbackArgs, Task> Invoker;
         private IJSObjectReference Module;
+        private IJSRuntime JSRuntime;
         private TaskCompletionSource<TSuccess> Promise;
+        private string FunctionIdentifier;
+        private Dictionary<string, object> Data;
         private DotNetInstanceCallbackArgs Args;
 
         /// <summary>
@@ -54,21 +101,10 @@ namespace Blazorade.Core.Interop
         }
 
         /// <summary>
-        /// Calls the JavaScript function specified by <paramref name="functionIdentifier"/>. The <see cref="Task"/> returned
+        /// Calls the JavaScript function specified when the class instance was created. The <see cref="Task"/> returned
         /// by this method will complete when the called JavaScript function calls one of the callbacks sent as argument.
         /// </summary>
-        /// <remarks>
-        /// This method assumes that the JavaScript function defined by <paramref name="functionIdentifier"/> takes one parameter
-        /// that is represented by an instance of the <see cref="DotNetInstanceCallbackArgs"/> class. That instance defines a
-        /// success callback and a failure callback. The called JavaScript function will call either of those to return data.
-        /// </remarks>
-        /// <param name="functionIdentifier">The identifier (name) of the function to call.</param>
-        /// <param name="data">
-        /// Optional data to pass to the JavaScript function. This will be available on the
-        /// <see cref="DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
-        /// </param>
-        /// <returns></returns>
-        public Task<TSuccess> GetResultAsync(string functionIdentifier, Dictionary<string, object> data = null)
+        public async Task<TSuccess> GetResultAsync()
         {
             if(null != this.Promise)
             {
@@ -81,12 +117,12 @@ namespace Blazorade.Core.Interop
             {
                 SuccessCallback = DotNetInstanceMethod.Create<TSuccess>(this.SuccessCallbackAsync),
                 FailureCallback = DotNetInstanceMethod.Create<TFailure>(this.FailureCallbackAsync),
-                Data = data ?? new Dictionary<string, object>()
+                Data = this.Data
             };
 
-            this.Module.InvokeVoidAsync(functionIdentifier, this.Args);
+            await this.Invoker(this.FunctionIdentifier, this.Args);
 
-            return this.Promise.Task;
+            return await this.Promise.Task;
         }
 
         /// <summary>
@@ -111,6 +147,7 @@ namespace Blazorade.Core.Interop
             }
             this.disposed = true;
         }
+
     }
 
     /// <summary>
@@ -124,7 +161,23 @@ namespace Blazorade.Core.Interop
         /// Creates an instance of the class.
         /// </summary>
         /// <param name="module">The module declaring the JavaScript function to call.</param>
-        public DotNetInstanceCallbackHandler(IJSObjectReference module) : base(module) { }
+        /// <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+        /// <param name="data">
+        /// Optional data to pass to the JavaScript function. This will be available on the
+        /// <see cref="DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+        /// </param>
+        public DotNetInstanceCallbackHandler(IJSObjectReference module, string functionIdentifier, Dictionary<string, object> data = null) : base(module, functionIdentifier, data) { }
+
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="jsRuntime">The JavaScript runtime to use when calling a JavaScript function.</param>
+        /// <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+        /// <param name="data">
+        /// Optional data to pass to the JavaScript function. This will be available on the
+        /// <see cref="DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+        /// </param>
+        public DotNetInstanceCallbackHandler(IJSRuntime jsRuntime, string functionIdentifier, Dictionary<string, object> data = null) : base(jsRuntime, functionIdentifier, data) { }
     }
 
     /// <summary>
@@ -136,6 +189,22 @@ namespace Blazorade.Core.Interop
         /// Creates an instance of the class.
         /// </summary>
         /// <param name="module">The module declaring the JavaScript function to call.</param>
-        public DotNetInstanceCallbackHandler(IJSObjectReference module) : base(module) { }
+        /// <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+        /// <param name="data">
+        /// Optional data to pass to the JavaScript function. This will be available on the
+        /// <see cref="DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+        /// </param>
+        public DotNetInstanceCallbackHandler(IJSObjectReference module, string functionIdentifier, Dictionary<string, object> data = null) : base(module, functionIdentifier, data) { }
+
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="jsRuntime">The JavaScript runtime to use when calling a JavaScript function.</param>
+        /// <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+        /// <param name="data">
+        /// Optional data to pass to the JavaScript function. This will be available on the
+        /// <see cref="DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+        /// </param>
+        public DotNetInstanceCallbackHandler(IJSRuntime jsRuntime, string functionIdentifier, Dictionary<string, object> data = null) : base(jsRuntime, functionIdentifier, data) { }
     }
 }

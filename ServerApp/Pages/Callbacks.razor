@@ -2,23 +2,55 @@
 @inject IJSRuntime jsRuntime
 
 @code{
-    string data;
+    [Parameter]
+    public string Data1 { get; set; }
+
+    [Parameter]
+    public string Data2 { get; set; }
+
+    private DotNetInstanceMethod Callback;
+    [JSInvokable]
+    public Task CallbackAsync(string data)
+    {
+        this.Data2 = data;
+        this.Callback.Dispose();
+        this.Callback = null;
+
+        this.StateHasChanged();
+        return Task.CompletedTask;
+    }
 
     private async Task ClickHandlerAsync(MouseEventArgs args)
     {
-        var module = await this.GetJsModuleAsync();
-        using (var callback = new DotNetInstanceCallbackHandler<string>(module))
+        using (var callback = await this.CreateHandlerAsync("getDelayedTimeString"))
         {
-            this.data = await callback.GetResultAsync("getDelayedTimeString");
-            this.StateHasChanged();
+            this.Data1 = await callback.GetResultAsync();
         }
+    }
+
+    private async Task<DotNetInstanceCallbackHandler<string>> CreateHandlerAsync(string functionIdentifier, Dictionary<string, object> data = null)
+    {
+        var module = await this.GetJsModuleAsync();
+        return new DotNetInstanceCallbackHandler<string>(module, functionIdentifier, data);
+    }
+
+    private async Task ClickHandlerCallbackAsync(MouseEventArgs args)
+    {
+        this.Callback = DotNetInstanceMethod.Create<string>(this.CallbackAsync);
+        var module = await this.GetJsModuleAsync();
+        await module.InvokeVoidAsync("getDelayedTimeStringByCallback", this.Callback);
     }
 
     Task<IJSObjectReference> jsModule;
     private Task<IJSObjectReference> GetJsModuleAsync()
     {
-        return this.jsModule ??= this.jsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/jsFuncs.js").AsTask();
+        return this.jsModule ??=
+            this.jsRuntime
+                .InvokeAsync<IJSObjectReference>("import", "./js/jsFuncs.js")
+                .AsTask();
     }
+
+
 }
 <h1>Callbacks</h1>
 <p>
@@ -27,8 +59,16 @@
     display the data received on this page.
 </p>
 
-<button @onclick="this.ClickHandlerAsync">Get Data</button>
+<hr />
 
+<button @onclick="this.ClickHandlerAsync">Get Data</button>
 <p>
-    <span>Data: @this.data</span>
+    <span>Data: @this.Data1</span>
+</p>
+
+<hr />
+
+<button @onclick="this.ClickHandlerCallbackAsync">Get Data with callback</button>
+<p>
+    <span>Data: @this.Data2</span>
 </p>
