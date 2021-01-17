@@ -30,7 +30,7 @@ namespace Blazorade.Core.Interop
     /// }
     /// </code>
     /// </remarks>
-    public sealed class DotNetInstanceMethod: IDisposable
+    public sealed class DotNetInstanceMethod : IDisposable
     {
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Blazorade.Core.Interop
         /// <param name="method">The method to encapsulate in the callback.</param>
         public static DotNetInstanceMethod Create(Delegate method)
         {
-            if(null != method)
+            if (null != method)
             {
                 ValidateCallbackMethod(method.Method);
                 return new DotNetInstanceMethod
