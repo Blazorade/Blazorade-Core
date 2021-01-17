@@ -7,8 +7,8 @@
     <Company>Blazorade</Company>
     <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap.</Description>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageLicenseExpression>mit</PackageLicenseExpression>
-    <PackageProjectUrl>https://blazorade.com/Core</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Blazorade/Blazorade-Core/wiki</PackageProjectUrl>
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Blazorade/Blazorade-Core</RepositoryUrl>
     <PackageTags>Blazor, Razor, Component</PackageTags>
@@ -40,6 +40,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

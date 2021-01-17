@@ -10,7 +10,11 @@
     private async Task ButtonClickHandlerAsync(MouseEventArgs args)
     {
         this.Data = null;
-        var input = new Dictionary<string, object> { { "data", Guid.NewGuid() } };
+        var input = new Dictionary<string, object>
+        {
+            { "data", Guid.NewGuid() }
+        };
+
         using (var handler = new DotNetInstanceCallbackHandler<string>(this.jsRuntime, "getDelayedData", input))
         {
             this.Data = await handler.GetResultAsync();
