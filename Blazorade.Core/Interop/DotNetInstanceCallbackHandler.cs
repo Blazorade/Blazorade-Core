@@ -10,7 +10,7 @@ namespace Blazorade.Core.Interop
     /// Handles callbacks to and from JavaScript code.
     /// </summary>
     /// <remarks>
-    /// 
+    /// For details on how to use this class, see the wiki at https://github.com/Blazorade/Blazorade-Core/wiki/DotNetInstanceCallbackHandler
     /// </remarks>
     public class DotNetInstanceCallbackHandler<TSuccess, TFailure> : IDisposable
     {
@@ -104,6 +104,11 @@ namespace Blazorade.Core.Interop
         /// Calls the JavaScript function specified when the class instance was created. The <see cref="Task"/> returned
         /// by this method will complete when the called JavaScript function calls one of the callbacks sent as argument.
         /// </summary>
+        /// <exception cref="FailureCallbackException">
+        /// The exception that is thrown if your JavaScript code calls the <c>failureCallback</c> callback. The
+        /// <see cref="FailureCallbackException.Result"/> property will contain the argument that your JavaScript
+        /// code send to the callback.
+        /// </exception>
         public async Task<TSuccess> GetResultAsync()
         {
             if(null != this.Promise)

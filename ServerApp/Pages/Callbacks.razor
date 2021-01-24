@@ -8,6 +8,12 @@
     [Parameter]
     public string Data2 { get; set; }
 
+    [Parameter]
+    public string Data3 { get; set; }
+
+    [Parameter]
+    public bool Error1Check { get; set; }
+
     private DotNetInstanceMethod Callback;
     [JSInvokable]
     public Task CallbackAsync(string data)
@@ -41,6 +47,24 @@
         await module.InvokeVoidAsync("getDelayedTimeStringByCallback", this.Callback);
     }
 
+    private async Task ClickHandlerWithErrorAsync(MouseEventArgs args)
+    {
+        var module = await this.GetJsModuleAsync();
+        var data = new Dictionary<string, object>()
+        {
+            { "error", this.Error1Check }
+        };
+        var hander = new DotNetInstanceCallbackHandler<string>(module, "getTimeStringOrError", data: data);
+        try
+        {
+            this.Data3 = await hander.GetResultAsync();
+        }
+        catch(Exception ex)
+        {
+            this.Data3 = ex.Message;
+        }
+    }
+
     Task<IJSObjectReference> jsModule;
     private Task<IJSObjectReference> GetJsModuleAsync()
     {
@@ -71,4 +95,18 @@
 <button @onclick="this.ClickHandlerCallbackAsync">Get Data with callback</button>
 <p>
     <span>Data: @this.Data2</span>
+</p>
+
+<hr />
+
+<label>
+    <input type="checkbox" @bind-value="this.Error1Check" />
+    <span>Use Error Callback</span>
+</label>
+
+<div>
+    <button @onclick="this.ClickHandlerWithErrorAsync">Get Data with success/error callback</button>
+</div>
+<p>
+    <span>Data: @this.Data3</span>
 </p>

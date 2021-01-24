@@ -11,3 +11,12 @@ export function getDelayedTimeStringByCallback(callback) {
         callback.target.invokeMethodAsync(callback.methodName, new Date().toLocaleTimeString());
     }, 100);
 }
+
+export function getTimeStringOrError(args) {
+    if (!args.data.error) {
+        args.successCallback.target.invokeMethodAsync(args.successCallback.methodName, new Date().toLocaleTimeString());
+    }
+    else {
+        args.failureCallback.target.invokeMethodAsync(args.failureCallback.methodName);
+    }
+}
