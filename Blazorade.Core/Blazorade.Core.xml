@@ -367,7 +367,7 @@
             This method supports the functionality provided by the class and should not be used in your code.
             </remarks>
         </member>
-        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.GetResultAsync(System.Int32)">
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.GetResultAsync(System.Nullable{System.Int32})">
             <summary>
             Calls the JavaScript function specified when the class instance was created. The <see cref="T:System.Threading.Tasks.Task"/> returned
             by this method will complete when the called JavaScript function calls one of the callbacks sent as argument.
