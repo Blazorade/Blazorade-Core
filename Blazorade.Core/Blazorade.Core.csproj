@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>2.0.0-preview1</Version>
+    <Version>2.0.0-rc-01</Version>
     <Authors>Mika Berglund</Authors>
     <Company>Blazorade</Company>
-    <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap.</Description>
+    <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap, Blazorade MSAL and Blazorade Teams.</Description>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Blazorade/Blazorade-Core/wiki</PackageProjectUrl>
