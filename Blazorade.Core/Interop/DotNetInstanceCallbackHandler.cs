@@ -76,6 +76,8 @@ namespace Blazorade.Core.Interop
         private DotNetInstanceCallbackArgs Args;
         private Timer TimeoutTimer;
 
+        private const int DefaultTimeout = 3000;
+
         /// <summary>
         /// The method that will be called by JavaScript code when the operation completes successfully.
         /// </summary>
@@ -118,7 +120,7 @@ namespace Blazorade.Core.Interop
         /// The exception that is thrown if the method call times out, i.e. the called JavaScript has not called either success
         /// or failure callbacks.
         /// </exception>
-        public async Task<TSuccess> GetResultAsync(int timeout = 3000)
+        public async Task<TSuccess> GetResultAsync(int? timeout = DefaultTimeout)
         {
             if(null != this.Promise)
             {
@@ -139,7 +141,7 @@ namespace Blazorade.Core.Interop
             this.TimeoutTimer = new Timer((state) =>
             {
                 this.Promise.TrySetException(new InteropTimeoutException("The operation timed out."));
-            }, null, timeout, Timeout.Infinite);
+            }, null, timeout ?? DefaultTimeout, Timeout.Infinite);
 
             return await this.Promise.Task;
         }
