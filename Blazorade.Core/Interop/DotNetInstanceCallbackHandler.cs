@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Blazorade.Core.Interop
@@ -73,6 +74,7 @@ namespace Blazorade.Core.Interop
         private string FunctionIdentifier;
         private Dictionary<string, object> Data;
         private DotNetInstanceCallbackArgs Args;
+        private Timer TimeoutTimer;
 
         /// <summary>
         /// The method that will be called by JavaScript code when the operation completes successfully.
@@ -83,6 +85,7 @@ namespace Blazorade.Core.Interop
         [JSInvokable]
         public Task SuccessCallbackAsync(TSuccess result = default)
         {
+            this.ClearTimeoutTimer();
             this.Promise.TrySetResult(result);
             return Task.CompletedTask;
         }
@@ -96,6 +99,7 @@ namespace Blazorade.Core.Interop
         [JSInvokable]
         public Task FailureCallbackAsync(TFailure result = default)
         {
+            this.ClearTimeoutTimer();
             this.Promise.TrySetException(new FailureCallbackException(result));
             return Task.CompletedTask;
         }
@@ -104,12 +108,17 @@ namespace Blazorade.Core.Interop
         /// Calls the JavaScript function specified when the class instance was created. The <see cref="Task"/> returned
         /// by this method will complete when the called JavaScript function calls one of the callbacks sent as argument.
         /// </summary>
+        /// <param name="timeout">The timeout in milliseconds to wait for a call on either success or failure callbacks from the called JavaScript.</param>
         /// <exception cref="FailureCallbackException">
         /// The exception that is thrown if your JavaScript code calls the <c>failureCallback</c> callback. The
         /// <see cref="FailureCallbackException.Result"/> property will contain the argument that your JavaScript
         /// code send to the callback.
         /// </exception>
-        public async Task<TSuccess> GetResultAsync()
+        /// <exception cref="InteropTimeoutException">
+        /// The exception that is thrown if the method call times out, i.e. the called JavaScript has not called either success
+        /// or failure callbacks.
+        /// </exception>
+        public async Task<TSuccess> GetResultAsync(int timeout = 3000)
         {
             if(null != this.Promise)
             {
@@ -126,6 +135,11 @@ namespace Blazorade.Core.Interop
             };
 
             await this.Invoker(this.FunctionIdentifier, this.Args);
+
+            this.TimeoutTimer = new Timer((state) =>
+            {
+                this.Promise.TrySetException(new InteropTimeoutException("The operation timed out."));
+            }, null, timeout, Timeout.Infinite);
 
             return await this.Promise.Task;
         }
@@ -149,10 +163,20 @@ namespace Blazorade.Core.Interop
             if (disposing && !disposed)
             {
                 this.Args?.Dispose();
+                try
+                {
+                    this.TimeoutTimer.Dispose();
+                }
+                catch { }
             }
             this.disposed = true;
         }
 
+
+        private void ClearTimeoutTimer()
+        {
+            this.TimeoutTimer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
     }
 
     /// <summary>

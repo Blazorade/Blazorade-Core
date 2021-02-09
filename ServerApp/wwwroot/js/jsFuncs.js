@@ -20,3 +20,8 @@ export function getTimeStringOrError(args) {
         args.failureCallback.target.invokeMethodAsync(args.failureCallback.methodName);
     }
 }
+
+export function devNull(args) {
+    console.log("devNull", args);
+
+}
