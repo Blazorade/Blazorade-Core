@@ -14,6 +14,12 @@
     [Parameter]
     public bool Error1Check { get; set; }
 
+    [Parameter]
+    public string TimeoutError { get; set; }
+
+    [Parameter]
+    public DateTime? TimeoutTimestamp { get; set; }
+
     private DotNetInstanceMethod Callback;
     [JSInvokable]
     public Task CallbackAsync(string data)
@@ -65,6 +71,27 @@
         }
     }
 
+    private async Task ClickHandlerWithTimeoutAsync(MouseEventArgs args)
+    {
+        this.TimeoutError = null;
+        this.TimeoutTimestamp = null;
+
+        var module = await this.GetJsModuleAsync();
+
+        using(var handler = new DotNetInstanceCallbackHandler(module, "devNull"))
+        {
+            try
+            {
+                await handler.GetResultAsync();
+            }
+            catch(Exception ex)
+            {
+                this.TimeoutTimestamp = DateTime.Now;
+                this.TimeoutError = ex.ToString();
+            }
+        }
+    }
+
     Task<IJSObjectReference> jsModule;
     private Task<IJSObjectReference> GetJsModuleAsync()
     {
@@ -110,3 +137,13 @@
 <p>
     <span>Data: @this.Data3</span>
 </p>
+
+<hr />
+
+<div>
+    <button @onclick="this.ClickHandlerWithTimeoutAsync">Invoke Timeout</button>
+</div>
+<ul>
+    <li>Timestamp: @this.TimeoutTimestamp</li>
+    <li>Timeout Error: @this.TimeoutError</li>
+</ul>

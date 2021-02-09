@@ -367,15 +367,20 @@
             This method supports the functionality provided by the class and should not be used in your code.
             </remarks>
         </member>
-        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.GetResultAsync">
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.GetResultAsync(System.Int32)">
             <summary>
             Calls the JavaScript function specified when the class instance was created. The <see cref="T:System.Threading.Tasks.Task"/> returned
             by this method will complete when the called JavaScript function calls one of the callbacks sent as argument.
             </summary>
+            <param name="timeout">The timeout in milliseconds to wait for a call on either success or failure callbacks from the called JavaScript.</param>
             <exception cref="T:Blazorade.Core.Interop.FailureCallbackException">
             The exception that is thrown if your JavaScript code calls the <c>failureCallback</c> callback. The
             <see cref="P:Blazorade.Core.Interop.FailureCallbackException.Result"/> property will contain the argument that your JavaScript
             code send to the callback.
+            </exception>
+            <exception cref="T:Blazorade.Core.Interop.InteropTimeoutException">
+            The exception that is thrown if the method call times out, i.e. the called JavaScript has not called either success
+            or failure callbacks.
             </exception>
         </member>
         <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.Dispose">
@@ -525,6 +530,26 @@
         <member name="P:Blazorade.Core.Interop.FailureCallbackException.Result">
             <summary>
             The result that may contain additional information about the failure.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Interop.InteropTimeoutException">
+            <summary>
+            The exception that is used to signal timeouts with.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.InteropTimeoutException.#ctor">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.InteropTimeoutException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.InteropTimeoutException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a new instance of the class.
             </summary>
         </member>
         <member name="T:Blazorade.Core.Services.BlazoradeInteropServiceBase">
