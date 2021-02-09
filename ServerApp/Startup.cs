@@ -27,9 +27,11 @@ namespace ServerApp
         {
             services
                 .AddRazorPages()
-                .Services
+                    .Services
                 .AddServerSideBlazor()
                 .AddCircuitOptions(options => options.DetailedErrors = true)
+                    .Services
+                .AddBlazoradeCore()
                 ;
         }
 

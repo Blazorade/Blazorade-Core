@@ -316,7 +316,7 @@
             Handles callbacks to and from JavaScript code.
             </summary>
             <remarks>
-            
+            For details on how to use this class, see the wiki at https://github.com/Blazorade/Blazorade-Core/wiki/DotNetInstanceCallbackHandler
             </remarks>
         </member>
         <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.#ctor(Microsoft.JSInterop.IJSObjectReference,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
@@ -372,6 +372,11 @@
             Calls the JavaScript function specified when the class instance was created. The <see cref="T:System.Threading.Tasks.Task"/> returned
             by this method will complete when the called JavaScript function calls one of the callbacks sent as argument.
             </summary>
+            <exception cref="T:Blazorade.Core.Interop.FailureCallbackException">
+            The exception that is thrown if your JavaScript code calls the <c>failureCallback</c> callback. The
+            <see cref="P:Blazorade.Core.Interop.FailureCallbackException.Result"/> property will contain the argument that your JavaScript
+            code send to the callback.
+            </exception>
         </member>
         <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.Dispose">
             <summary>
@@ -520,6 +525,69 @@
         <member name="P:Blazorade.Core.Interop.FailureCallbackException.Result">
             <summary>
             The result that may contain additional information about the failure.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Services.BlazoradeInteropServiceBase">
+            <summary>
+            A base class for service implementations that provide JavaScript interop services.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeInteropServiceBase.#ctor(Microsoft.JSInterop.IJSRuntime)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+            <param name="jsRuntime"></param>
+        </member>
+        <member name="P:Blazorade.Core.Services.BlazoradeInteropServiceBase.JSRuntime">
+            <summary>
+            Returns the JavaScript runtime.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeInteropServiceBase.ImportJavaScriptModuleAsync(System.String)">
+            <summary>
+            Imports the JavaScript module with the given URL.
+            </summary>
+            <param name="moduleUrl">
+            <para>
+            The relative or absolute path of the module to import.
+            </para>
+            <para>
+            If you are importing a JavaScript file in your component library's <c>wwwroot</c> folder, set the URL to
+            <c>./content/{Library Name}/yourfile.js</c>
+            </para>
+            </param>
+            <returns>Returns the imported module.</returns>
+        </member>
+        <member name="T:Blazorade.Core.Services.BlazoradeLocalizationService">
+            <summary>
+            Provides localization services.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeLocalizationService.#ctor(Microsoft.JSInterop.IJSRuntime)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+            <param name="jsRuntime"></param>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeLocalizationService.GetClientTimezoneOffsetAsync">
+            <summary>
+            Returns the timezone offset on the client.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeLocalizationService.GetClientDateTimeAsync">
+            <summary>
+            Returns the local time on the client.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.BlazoradeCoreServiceCollectionExtensions">
+            <summary>
+            Extension functions for configuring services required by Blazorade Core.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.BlazoradeCoreServiceCollectionExtensions.AddBlazoradeCore(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds the services needed by Blazorade Core.
             </summary>
         </member>
     </members>

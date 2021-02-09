@@ -1,0 +1,20 @@
+﻿@page "/localization"
+@inject BlazoradeLocalizationService LocalizationService
+
+@code {
+    TimeSpan Offset;
+    DateTime ClientTime;
+    private async Task GetClientTimeAsync(MouseEventArgs e)
+    {
+        this.Offset = await this.LocalizationService.GetClientTimezoneOffsetAsync();
+        this.ClientTime = await this.LocalizationService.GetClientDateTimeAsync();
+    }
+} 
+
+<h1>Localization</h1>
+
+<button type="button" @onclick="this.GetClientTimeAsync">Get Client Time</button>
+<ul>
+    <li>Client Time: @ClientTime</li>
+    <li>Client Timezone: @Offset</li>
+</ul>
