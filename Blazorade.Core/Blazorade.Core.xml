@@ -19,6 +19,11 @@
             A collection of attributes that will be merged onto the component when rendered.
             </summary>
         </member>
+        <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.Builder">
+            <summary>
+            The builder that will be used to build attributes, classes and styles for the element produced by the component.
+            </summary>
+        </member>
         <member name="P:Blazorade.Core.Components.BlazoradeComponentBase.ChildContent">
             <summary>
             Enables child content for the control.
@@ -41,7 +46,7 @@
         </member>
         <member name="M:Blazorade.Core.Components.BlazoradeComponentBase.AddAttribute(System.String,System.Object)">
             <summary>
-            Adds an attribute to the <see cref="!:this.Attributes"/> dictionary.
+            Adds an attribute to the <see cref="P:Blazorade.Core.Components.BlazoradeComponentBase.Attributes"/> dictionary.
             </summary>
             <param name="name">The name of the attribute to add.</param>
             <param name="value">The value of the attribute.</param>
@@ -270,6 +275,319 @@
         </member>
         <member name="M:Blazorade.Core.Components.Server.ComponentReconnectModal.OnParametersSet">
             <summary>
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceCallbackArgs">
+            <summary>
+            An arguments class for use when calling a JavaScript function from .NET, where the JavaScript function
+            needs to call back to your .NET code.
+            </summary>
+            <remarks>
+            This is useful in scenarios where the JavaScript function that you call from .NET calls into some JavaScript
+            API that returns a result using callback functions.
+            </remarks>
+        </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.SuccessCallback">
+            <summary>
+            The callback method that will be called from JavaScript when the operation completes successfully.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.FailureCallback">
+            <summary>
+            The callback method that will be called from JavaScript when the operation fails.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Data">
+            <summary>
+            Arbitrary data to pass in to the JavaScript function.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Dispose">
+            <summary>
+            Handles disposing of objects.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Dispose(System.Boolean)">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2">
+            <summary>
+            Handles callbacks to and from JavaScript code.
+            </summary>
+            <remarks>
+            For details on how to use this class, see the wiki at https://github.com/Blazorade/Blazorade-Core/wiki/DotNetInstanceCallbackHandler
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.#ctor(Microsoft.JSInterop.IJSObjectReference,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="module">The module declaring the JavaScript function to call.</param>
+            <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+            <param name="data">
+            Optional data to pass to the JavaScript function. This will be available on the
+            <see cref="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+            </param>
+            <remarks>
+            This class assumes that the JavaScript function defined by <paramref name="functionIdentifier"/> takes one parameter
+            that is represented by an instance of the <see cref="T:Blazorade.Core.Interop.DotNetInstanceCallbackArgs"/> class. That instance defines a
+            success callback and a failure callback. The called JavaScript function is assumed to call either of those to return data.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.#ctor(Microsoft.JSInterop.IJSRuntime,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="jsRuntime">The JavaScript runtime to use when calling a JavaScript function.</param>
+            <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+            <param name="data">
+            Optional data to pass to the JavaScript function. This will be available on the
+            <see cref="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+            </param>
+            <remarks>
+            This class assumes that the JavaScript function defined by <paramref name="functionIdentifier"/> takes one parameter
+            that is represented by an instance of the <see cref="T:Blazorade.Core.Interop.DotNetInstanceCallbackArgs"/> class. That instance defines a
+            success callback and a failure callback. The called JavaScript function is assumed to call either of those to return data.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.SuccessCallbackAsync(`0)">
+            <summary>
+            The method that will be called by JavaScript code when the operation completes successfully.
+            </summary>
+            <remarks>
+            This method supports the functionality provided by the class and should not be used in your code.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.FailureCallbackAsync(`1)">
+            <summary>
+            The method that will be called by JavaSCript code when the operation fails.
+            </summary>
+            <remarks>
+            This method supports the functionality provided by the class and should not be used in your code.
+            </remarks>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.GetResultAsync">
+            <summary>
+            Calls the JavaScript function specified when the class instance was created. The <see cref="T:System.Threading.Tasks.Task"/> returned
+            by this method will complete when the called JavaScript function calls one of the callbacks sent as argument.
+            </summary>
+            <exception cref="T:Blazorade.Core.Interop.FailureCallbackException">
+            The exception that is thrown if your JavaScript code calls the <c>failureCallback</c> callback. The
+            <see cref="P:Blazorade.Core.Interop.FailureCallbackException.Result"/> property will contain the argument that your JavaScript
+            code send to the callback.
+            </exception>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.Dispose">
+            <summary>
+            Disposes of the handler when it has been used.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2.Dispose(System.Boolean)">
+            <summary>
+            Disposes of the handler when it has been used.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`1">
+            <summary>
+            A class derived from <see cref="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2"/> that only defines
+            <typeparamref name="TSuccess"/>.
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`1.#ctor(Microsoft.JSInterop.IJSObjectReference,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="module">The module declaring the JavaScript function to call.</param>
+            <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+            <param name="data">
+            Optional data to pass to the JavaScript function. This will be available on the
+            <see cref="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+            </param>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`1.#ctor(Microsoft.JSInterop.IJSRuntime,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="jsRuntime">The JavaScript runtime to use when calling a JavaScript function.</param>
+            <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+            <param name="data">
+            Optional data to pass to the JavaScript function. This will be available on the
+            <see cref="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+            </param>
+        </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler">
+            <summary>
+            A class derived from <see cref="T:Blazorade.Core.Interop.DotNetInstanceCallbackHandler`2"/> without type parameters.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler.#ctor(Microsoft.JSInterop.IJSObjectReference,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="module">The module declaring the JavaScript function to call.</param>
+            <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+            <param name="data">
+            Optional data to pass to the JavaScript function. This will be available on the
+            <see cref="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+            </param>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceCallbackHandler.#ctor(Microsoft.JSInterop.IJSRuntime,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="jsRuntime">The JavaScript runtime to use when calling a JavaScript function.</param>
+            <param name="functionIdentifier">The identifier (name) of the function to call.</param>
+            <param name="data">
+            Optional data to pass to the JavaScript function. This will be available on the
+            <see cref="P:Blazorade.Core.Interop.DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
+            </param>
+        </member>
+        <member name="T:Blazorade.Core.Interop.DotNetInstanceMethod">
+            <summary>
+            Encapsulates a .NET instance method in your Blazor application that can be called from JavaScript.
+            </summary>
+            <remarks>
+            <para>
+            An instance of this class can be used as argument when calling a JavaScript function from .NET. The argument allows
+            the JS code to call the .NET method encapsulated in this instance.
+            </para>
+            <para>
+            To call the method encapsulated in this instance from your JavaScript code, you pass this instance to your JavaScript
+            code as an argument. In that JavaScript function you would then use it like this.
+            </para>
+            <code>
+            function myJavaScriptFunction(dotNetInstanceMethod) {
+                
+                // To call the .NET method without any arguments, you do it like this.
+                dotNetInstanceMethod.target.invokeMethodAsync(dotNetInstanceCallback.methodName);
+                
+                // Or you can also pass in arguments like this.
+                dotNetInstanceMethod.target.invokeMethodAsync(dotNetInstanceMethod.methodName, arg1, arg2);
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceMethod.Target">
+            <summary>
+            Represents the target object defining the method to call back from JavaScript.
+            </summary>
+        </member>
+        <member name="P:Blazorade.Core.Interop.DotNetInstanceMethod.MethodName">
+            <summary>
+            The name of the method on the object represented by <see cref="P:Blazorade.Core.Interop.DotNetInstanceMethod.Target"/>.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceMethod.Create(System.Delegate)">
+            <summary>
+            Creates a new instance from the delegate specified in <paramref name="method"/>.
+            </summary>
+            <param name="method">The method to encapsulate in the callback.</param>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceMethod.Create(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Creates a new instance from the async function specified in <paramref name="method"/>.
+            </summary>
+            <param name="method">The method to encapsulate in the callback.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceMethod.Create``1(System.Func{``0,System.Threading.Tasks.Task})">
+            <summary>
+            Creates a new instance from the async function specified in <paramref name="method"/>.
+            </summary>
+            <typeparam name="T">The type for the input parameter on the callback method.</typeparam>
+            <param name="method">The method to encapsulate in the callback.</param>
+        </member>
+        <member name="M:Blazorade.Core.Interop.DotNetInstanceMethod.Dispose">
+            <summary>
+            Disposes of the object.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Interop.FailureCallbackException">
+            <summary>
+            The exception that is thrown when a failure callback is called.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Interop.FailureCallbackException.#ctor(System.Object)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+            <param name="result">The result data that was sent with the failure callback.</param>
+        </member>
+        <member name="M:Blazorade.Core.Interop.FailureCallbackException.#ctor(System.Object,System.String)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+            <param name="result">The result data that was sent with the failure callback.</param>
+            <param name="message">An additional error message.</param>
+        </member>
+        <member name="P:Blazorade.Core.Interop.FailureCallbackException.Result">
+            <summary>
+            The result that may contain additional information about the failure.
+            </summary>
+        </member>
+        <member name="T:Blazorade.Core.Services.BlazoradeInteropServiceBase">
+            <summary>
+            A base class for service implementations that provide JavaScript interop services.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeInteropServiceBase.#ctor(Microsoft.JSInterop.IJSRuntime)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+            <param name="jsRuntime"></param>
+        </member>
+        <member name="P:Blazorade.Core.Services.BlazoradeInteropServiceBase.JSRuntime">
+            <summary>
+            Returns the JavaScript runtime.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeInteropServiceBase.ImportJavaScriptModuleAsync(System.String)">
+            <summary>
+            Imports the JavaScript module with the given URL.
+            </summary>
+            <param name="moduleUrl">
+            <para>
+            The relative or absolute path of the module to import.
+            </para>
+            <para>
+            If you are importing a JavaScript file in your component library's <c>wwwroot</c> folder, set the URL to
+            <c>./content/{Library Name}/yourfile.js</c>
+            </para>
+            </param>
+            <returns>Returns the imported module.</returns>
+        </member>
+        <member name="T:Blazorade.Core.Services.BlazoradeLocalizationService">
+            <summary>
+            Provides localization services.
+            </summary>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeLocalizationService.#ctor(Microsoft.JSInterop.IJSRuntime)">
+            <summary>
+            Creates a new instance of the class.
+            </summary>
+            <param name="jsRuntime"></param>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeLocalizationService.GetClientTimezoneOffsetAsync">
+            <summary>
+            Returns the timezone offset on the client.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Blazorade.Core.Services.BlazoradeLocalizationService.GetClientDateTimeAsync">
+            <summary>
+            Returns the local time on the client.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.BlazoradeCoreServiceCollectionExtensions">
+            <summary>
+            Extension functions for configuring services required by Blazorade Core.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.BlazoradeCoreServiceCollectionExtensions.AddBlazoradeCore(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds the services needed by Blazorade Core.
             </summary>
         </member>
     </members>

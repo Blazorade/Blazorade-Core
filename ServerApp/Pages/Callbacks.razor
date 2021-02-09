@@ -1,0 +1,112 @@
+﻿@page "/callbacks"
+@inject IJSRuntime jsRuntime
+
+@code{
+    [Parameter]
+    public string Data1 { get; set; }
+
+    [Parameter]
+    public string Data2 { get; set; }
+
+    [Parameter]
+    public string Data3 { get; set; }
+
+    [Parameter]
+    public bool Error1Check { get; set; }
+
+    private DotNetInstanceMethod Callback;
+    [JSInvokable]
+    public Task CallbackAsync(string data)
+    {
+        this.Data2 = data;
+        this.Callback.Dispose();
+        this.Callback = null;
+
+        this.StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private async Task ClickHandlerAsync(MouseEventArgs args)
+    {
+        using (var callback = await this.CreateHandlerAsync("getDelayedTimeString"))
+        {
+            this.Data1 = await callback.GetResultAsync();
+        }
+    }
+
+    private async Task<DotNetInstanceCallbackHandler<string>> CreateHandlerAsync(string functionIdentifier, Dictionary<string, object> data = null)
+    {
+        var module = await this.GetJsModuleAsync();
+        return new DotNetInstanceCallbackHandler<string>(module, functionIdentifier, data);
+    }
+
+    private async Task ClickHandlerCallbackAsync(MouseEventArgs args)
+    {
+        this.Callback = DotNetInstanceMethod.Create<string>(this.CallbackAsync);
+        var module = await this.GetJsModuleAsync();
+        await module.InvokeVoidAsync("getDelayedTimeStringByCallback", this.Callback);
+    }
+
+    private async Task ClickHandlerWithErrorAsync(MouseEventArgs args)
+    {
+        var module = await this.GetJsModuleAsync();
+        var data = new Dictionary<string, object>()
+        {
+            { "error", this.Error1Check }
+        };
+        var hander = new DotNetInstanceCallbackHandler<string>(module, "getTimeStringOrError", data: data);
+        try
+        {
+            this.Data3 = await hander.GetResultAsync();
+        }
+        catch(Exception ex)
+        {
+            this.Data3 = ex.Message;
+        }
+    }
+
+    Task<IJSObjectReference> jsModule;
+    private Task<IJSObjectReference> GetJsModuleAsync()
+    {
+        return this.jsModule ??=
+            this.jsRuntime
+                .InvokeAsync<IJSObjectReference>("import", "./js/jsFuncs.js")
+                .AsTask();
+    }
+
+
+}
+<h1>Callbacks</h1>
+<p>
+    When you click the button below, it invokes an interop call that calls into JavaScript that uses a timeout
+    to simulate data received in a callback. The handler function for the timeout will call back into .NET to
+    display the data received on this page.
+</p>
+
+<hr />
+
+<button @onclick="this.ClickHandlerAsync">Get Data</button>
+<p>
+    <span>Data: @this.Data1</span>
+</p>
+
+<hr />
+
+<button @onclick="this.ClickHandlerCallbackAsync">Get Data with callback</button>
+<p>
+    <span>Data: @this.Data2</span>
+</p>
+
+<hr />
+
+<label>
+    <input type="checkbox" @bind-value="this.Error1Check" />
+    <span>Use Error Callback</span>
+</label>
+
+<div>
+    <button @onclick="this.ClickHandlerWithErrorAsync">Get Data with success/error callback</button>
+</div>
+<p>
+    <span>Data: @this.Data3</span>
+</p>

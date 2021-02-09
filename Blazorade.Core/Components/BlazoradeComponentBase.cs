@@ -30,6 +30,9 @@ namespace Blazorade.Core.Components
         [Parameter(CaptureUnmatchedValues = true)]
         public IDictionary<string, object> Attributes { get; set; }
 
+        /// <summary>
+        /// The builder that will be used to build attributes, classes and styles for the element produced by the component.
+        /// </summary>
         [Parameter]
         public IComponentBuilder Builder { get; set; }
 
@@ -63,7 +66,7 @@ namespace Blazorade.Core.Components
 
 
         /// <summary>
-        /// Adds an attribute to the <see cref="this.Attributes"/> dictionary.
+        /// Adds an attribute to the <see cref="Attributes"/> dictionary.
         /// </summary>
         /// <param name="name">The name of the attribute to add.</param>
         /// <param name="value">The value of the attribute.</param>
