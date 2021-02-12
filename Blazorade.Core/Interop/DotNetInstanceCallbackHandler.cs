@@ -19,6 +19,8 @@ namespace Blazorade.Core.Interop
         {
             this.FunctionIdentifier = functionIdentifier ?? throw new ArgumentNullException(nameof(functionIdentifier));
             this.Data = data ?? new Dictionary<string, object>();
+
+            this.TimeoutTimer = new Timer(this.TimeoutTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
         }
 
         /// <summary>
@@ -102,7 +104,7 @@ namespace Blazorade.Core.Interop
         public Task FailureCallbackAsync(TFailure result = default)
         {
             this.ClearTimeoutTimer();
-            this.Promise.TrySetException(new FailureCallbackException(result));
+            this.TrySetException(new FailureCallbackException(result));
             return Task.CompletedTask;
         }
 
@@ -138,10 +140,7 @@ namespace Blazorade.Core.Interop
 
             await this.Invoker(this.FunctionIdentifier, this.Args);
 
-            this.TimeoutTimer = new Timer((state) =>
-            {
-                this.Promise.TrySetException(new InteropTimeoutException("The operation timed out."));
-            }, null, timeout ?? DefaultTimeout, Timeout.Infinite);
+            this.TimeoutTimer.Change(timeout ?? DefaultTimeout, Timeout.Infinite);
 
             return await this.Promise.Task;
         }
@@ -177,7 +176,17 @@ namespace Blazorade.Core.Interop
 
         private void ClearTimeoutTimer()
         {
-            this.TimeoutTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            this.TimeoutTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        private void TrySetException(Exception ex)
+        {
+            this.Promise.TrySetException(ex);
+        }
+
+        private void TimeoutTimerCallback(object state)
+        {
+            this.Promise.TrySetException(new InteropTimeoutException("The operation timed out."));
         }
     }
 
@@ -209,6 +218,7 @@ namespace Blazorade.Core.Interop
         /// <see cref="DotNetInstanceCallbackArgs.Data"/> property in the called JavaScript function.
         /// </param>
         public DotNetInstanceCallbackHandler(IJSRuntime jsRuntime, string functionIdentifier, Dictionary<string, object> data = null) : base(jsRuntime, functionIdentifier, data) { }
+
     }
 
     /// <summary>

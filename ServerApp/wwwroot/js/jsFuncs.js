@@ -17,11 +17,15 @@ export function getTimeStringOrError(args) {
         args.successCallback.target.invokeMethodAsync(args.successCallback.methodName, new Date().toLocaleTimeString());
     }
     else {
-        args.failureCallback.target.invokeMethodAsync(args.failureCallback.methodName);
+        args.failureCallback.target.invokeMethodAsync(args.failureCallback.methodName, null);
     }
 }
 
 export function devNull(args) {
     console.log("devNull", args);
 
+}
+
+export function returnString(args) {
+    args.successCallback.target.invokeMethodAsync(args.successCallback.methodName, args.data.value);
 }

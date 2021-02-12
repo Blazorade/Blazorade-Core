@@ -55,19 +55,13 @@
 
     private async Task ClickHandlerWithErrorAsync(MouseEventArgs args)
     {
-        var module = await this.GetJsModuleAsync();
-        var data = new Dictionary<string, object>()
-        {
-            { "error", this.Error1Check }
-        };
-        var hander = new DotNetInstanceCallbackHandler<string>(module, "getTimeStringOrError", data: data);
         try
         {
-            this.Data3 = await hander.GetResultAsync();
+            this.Data3 = await this.GetInteropDataAsync<string>("getTimeStringOrError", data: new Dictionary<string, object>() { { "error", this.Error1Check } });
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            this.Data3 = ex.Message;
+            this.Data3 = ex.ToString();
         }
     }
 
@@ -76,20 +70,33 @@
         this.TimeoutError = null;
         this.TimeoutTimestamp = null;
 
-        var module = await this.GetJsModuleAsync();
-
-        using(var handler = new DotNetInstanceCallbackHandler(module, "devNull"))
+        try
         {
-            try
-            {
-                await handler.GetResultAsync();
-            }
-            catch(Exception ex)
-            {
-                this.TimeoutTimestamp = DateTime.Now;
-                this.TimeoutError = ex.ToString();
-            }
+            await this.GetInteropDataAsync("devNull");
         }
+        catch (Exception ex)
+        {
+            this.TimeoutTimestamp = DateTime.Now;
+            this.TimeoutError = ex.ToString();
+        }
+    }
+
+    private async Task<object> GetInteropDataAsync(string functionIdentifier, Dictionary<string, object> data = null)
+    {
+        return await this.GetInteropDataAsync<object>(functionIdentifier, data);
+    }
+
+    private async Task<T> GetInteropDataAsync<T>(string functionIdentifier, Dictionary<string, object> data = null)
+    {
+        T result = default;
+
+        var module = await this.GetJsModuleAsync();
+        using (var handler = new DotNetInstanceCallbackHandler<T>(module, functionIdentifier, data: data))
+        {
+            result = await handler.GetResultAsync();
+        }
+
+        return result;
     }
 
     Task<IJSObjectReference> jsModule;
@@ -146,4 +153,18 @@
 <ul>
     <li>Timestamp: @this.TimeoutTimestamp</li>
     <li>Timeout Error: @this.TimeoutError</li>
+</ul>
+
+<hr />
+
+@code{
+    DateTime stringValueTimestamp;
+    string stringValue;
+}
+<div>
+    <button @onclick='async () => { stringValue = await this.GetInteropDataAsync<string>("returnString", new Dictionary<string, object> { { "value", Guid.NewGuid() } }); stringValueTimestamp = DateTime.Now; }'>Get String</button>
+</div>
+<ul>
+    <li>Timestamp: @stringValueTimestamp</li>
+    <li>String Value: @stringValue</li>
 </ul>
