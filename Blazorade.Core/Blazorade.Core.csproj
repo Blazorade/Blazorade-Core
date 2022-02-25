@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>2.0.1</Version>
+    <Version>3.0.0</Version>
     <Authors>Mika Berglund</Authors>
     <Company>Blazorade</Company>
     <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap, Blazorade MSAL and Blazorade Teams.</Description>
@@ -12,7 +12,7 @@
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Blazorade/Blazorade-Core</RepositoryUrl>
     <PackageTags>Blazor, Razor, Component</PackageTags>
-    <PackageReleaseNotes>This library is now targeting .NET 5 instead of .NET Standard 2.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>This library is now targeting .NET 6 instead of .NET 5</PackageReleaseNotes>
     <Product>Blazorade Core</Product>
   </PropertyGroup>
 
