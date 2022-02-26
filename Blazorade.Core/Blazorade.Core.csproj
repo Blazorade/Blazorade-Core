@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>3.0.0-beta2</Version>
+    <Version>3.0.0</Version>
     <Authors>Mika Berglund</Authors>
     <Company>Blazorade</Company>
     <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap and Blazorade MSAL.</Description>
@@ -15,6 +15,8 @@
     <PackageReleaseNotes>This library is now targeting .NET 6 instead of .NET 5</PackageReleaseNotes>
 	<PackageReadmeFile>readme.md</PackageReadmeFile>
     <Product>Blazorade Core</Product>
+    <Copyright>Copyright (c) Mika Berglund 2022</Copyright>
+    <PackageIcon>Blazorade-Icon-128.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -32,6 +34,10 @@
 
   <ItemGroup>
     <None Include="readme.md" Pack="true" PackagePath="\" />
+    <None Include="wwwroot\Blazorade-Icon-128.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
