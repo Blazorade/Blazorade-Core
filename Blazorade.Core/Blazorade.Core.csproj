@@ -1,19 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Version>2.0.1</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>3.0.0</Version>
     <Authors>Mika Berglund</Authors>
     <Company>Blazorade</Company>
-    <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap, Blazorade MSAL and Blazorade Teams.</Description>
+    <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap and Blazorade MSAL.</Description>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Blazorade/Blazorade-Core/wiki</PackageProjectUrl>
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Blazorade/Blazorade-Core</RepositoryUrl>
     <PackageTags>Blazor, Razor, Component</PackageTags>
-    <PackageReleaseNotes>This library is now targeting .NET 5 instead of .NET Standard 2.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>This library is now targeting .NET 6 instead of .NET 5</PackageReleaseNotes>
+	<PackageReadmeFile>readme.md</PackageReadmeFile>
     <Product>Blazorade Core</Product>
+    <Copyright>Copyright (c) Mika Berglund 2022</Copyright>
+    <PackageIcon>Blazorade-Icon-128.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -26,6 +29,15 @@
 
   <ItemGroup>
     <None Remove="Blazorade.Core.xml" />
+    <None Remove="readme.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath="\" />
+    <None Include="wwwroot\Blazorade-Icon-128.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -34,8 +46,8 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.2" />
   </ItemGroup>
 
 
