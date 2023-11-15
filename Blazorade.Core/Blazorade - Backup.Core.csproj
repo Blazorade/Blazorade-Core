@@ -2,22 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>3.0.1</Version>
+    <Version>3.0.0</Version>
     <Authors>Mika Berglund</Authors>
     <Company>Blazorade</Company>
-    <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap.</Description>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as Blazorade Bootstrap and Blazorade MSAL.</Description>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Blazorade/Blazorade-Core/wiki</PackageProjectUrl>
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Blazorade/Blazorade-Core</RepositoryUrl>
     <PackageTags>Blazor, Razor, Component</PackageTags>
-    <PackageReleaseNotes>For details about this release, check out the release notes on Nuget at https://www.nuget.org/packages/Blazorade.Core.</PackageReleaseNotes>
+    <PackageReleaseNotes>For details about this release, check out the documentation on https://www.nuget.org/packages/Blazorade.Core.</PackageReleaseNotes>
 	<PackageReadmeFile>readme.md</PackageReadmeFile>
     <Product>Blazorade Core</Product>
     <Copyright>Copyright (c) Mika Berglund 2023</Copyright>
     <PackageIcon>Blazorade-Icon-128.png</PackageIcon>
-    <Title>Blazorade Core</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -48,7 +47,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.25" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.25" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.2" />
   </ItemGroup>
 
 
