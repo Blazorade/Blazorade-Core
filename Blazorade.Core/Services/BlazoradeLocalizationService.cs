@@ -10,7 +10,7 @@ namespace Blazorade.Core.Services
     /// <summary>
     /// Provides localization services.
     /// </summary>
-    public class BlazoradeLocalizationService : BlazoradeInteropServiceBase
+    public class BlazoradeLocalizationService : BlazoradeCoreInteropServiceBase
     {
         /// <summary>
         /// Creates a new instance of the class.
@@ -39,10 +39,5 @@ namespace Blazorade.Core.Services
             return DateTime.UtcNow.Add(offset);
         }
 
-
-        private async Task<IJSObjectReference> GetBlazoradeCoreModuleAsync()
-        {
-            return await this.ImportJavaScriptModuleAsync("./_content/Blazorade.Core/js/blazoradeCore.js");
-        }
     }
 }

@@ -20,6 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             return services
                 .AddScoped<BlazoradeLocalizationService>()
+                .AddScoped<BlazoradeScrollService>()
                 ;
         }
 

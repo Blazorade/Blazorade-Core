@@ -17,6 +17,11 @@ After you've installed this package to your application, please refer to the [Ge
 
 The sections below list the main improvements in each published version.
 
+### v4.0.0
+
+- Updated the target framework to .NET8.
+- Added [BlazoradeScrollService](https://github.com/Blazorade/Blazorade-Core/wiki/BlazoradeScrollService) that allows you to scroll a given elem into view.
+
 ### v3.0.1
 
 - Updated reference to [Microsoft.AspNetCore.Components](https://www.nuget.org/packages/Microsoft.AspNetCore.Components) from version v6.0.2 to v6.0.25 because of [this vulnerability](https://github.com/advisories/GHSA-3fx3-85r4-8j3w) in older versions.
