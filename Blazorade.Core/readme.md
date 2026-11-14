@@ -2,6 +2,8 @@
 
 Provides core functionality for your Blazor component libraries as well as many of the Blazorade libraries, such as [Blazorade Bootstrap](https://github.com/Blazorade/Blazorade-Bootstrap) and [Blazorade MSAL](https://github.com/Blazorade/Blazorade-MSAL).
 
+Blazorade Core 5.0.0 targets .NET 10.
+
 
 ## Getting Started
 
@@ -16,6 +18,10 @@ After you've installed this package to your application, please refer to the [Ge
 ## Version Highlights
 
 The sections below list the main improvements in each published version.
+
+### v5.0.0
+
+- Updated the target framework to .NET 10 and upgraded the Blazor component package references to version 10.0.0.
 
 ### v4.0.0
 
